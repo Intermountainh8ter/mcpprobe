@@ -1,0 +1,12 @@
+{
+  "n_files": 4,
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "sha256": {
+    "envs/mcp-server-git.json": "0c50856d6312e2d28c16013e6ec94e22d7ffb150a0a8ff3371e95db03af2d72f",
+    "envs/mcp-server-time.json": "57ad8498637ca9edaef4e099d0d4a0716f5fb33ef8b93c3792ec8c35bc3c01bd",
+    "results/mcp-server-git.json": "4481e257c869eadd08381991bafd76a98329ff0a38607d1b62c2db11e5ca8dc5",
+    "results/mcp-server-time.json": "a68eeb8914e822c6f71bb6a4d3576a40140b536c0eeedaa586efa35e38da4513"
+  },
+  "tool": "bench-report 0.1.0",
+  "unix_time": 1792427015
+}

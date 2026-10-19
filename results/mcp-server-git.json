@@ -1,0 +1,212 @@
+{
+  "tool": "mcpprobe 0.0.1",
+  "unix_time": 1792426967,
+  "environment": "mcp-server-git",
+  "server": {
+    "name": "mcp-server-git (modelcontextprotocol/servers, PyPI)",
+    "cmd": [
+      "/home/ammo/bench/.venv-mcp/bin/mcp-server-git"
+    ],
+    "version_cmd": [
+      "/home/ammo/bench/.venv-mcp/bin/pip",
+      "show",
+      "mcp-server-git"
+    ]
+  },
+  "server_info": {
+    "name": "mcp-git",
+    "version": "2026.10.19"
+  },
+  "server_version": "Name: mcp-server-git\nVersion: 2026.10.19\nSummary: A Model Context Protocol server providing tools to read, search, and manipulate Git repositories programmatically via LLMs\nHome-page: \nAuthor: Anthropic, PBC.\nAuthor-email: \nLicense: MIT\nLocation: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages\nRequires: click, gitpython, mcp, pydantic\nRequired-by:",
+  "tools_advertised": [
+    "git_status",
+    "git_diff_unstaged",
+    "git_diff_staged",
+    "git_diff",
+    "git_commit",
+    "git_add",
+    "git_reset",
+    "git_log",
+    "git_create_branch",
+    "git_checkout",
+    "git_show",
+    "git_branch"
+  ],
+  "n": 8,
+  "k": 4,
+  "seed": 0,
+  "boot_iters": 2000,
+  "tasks": [
+    {
+      "id": "status-clean-tree",
+      "tool": "git_status",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.5
+      },
+      "flagged": true,
+      "sample_error": null
+    },
+    {
+      "id": "log-shows-fixture-commit",
+      "tool": "git_log",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.25
+      },
+      "flagged": true,
+      "sample_error": null
+    },
+    {
+      "id": "branch-list-has-main",
+      "tool": "git_branch",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "show-head-commit",
+      "tool": "git_show",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "missing-repo-is-an-error",
+      "tool": "git_status",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 1.0,
+        "schema_mismatch": 0.5
+      },
+      "flagged": true,
+      "sample_error": null
+    }
+  ],
+  "flagged_any": true
+}

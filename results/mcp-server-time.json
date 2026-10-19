@@ -1,0 +1,204 @@
+{
+  "tool": "mcpprobe 0.0.1",
+  "unix_time": 1792426965,
+  "environment": "mcp-server-time",
+  "server": {
+    "name": "mcp-server-time (modelcontextprotocol/servers, PyPI)",
+    "cmd": [
+      "/home/ammo/bench/.venv-mcp/bin/mcp-server-time",
+      "--local-timezone",
+      "UTC"
+    ],
+    "version_cmd": [
+      "/home/ammo/bench/.venv-mcp/bin/pip",
+      "show",
+      "mcp-server-time"
+    ]
+  },
+  "server_info": {
+    "name": "mcp-time",
+    "version": "2026.10.19"
+  },
+  "server_version": "Name: mcp-server-time\nVersion: 2026.10.19\nSummary: A Model Context Protocol server providing tools for time queries and timezone conversions for LLMs\nHome-page: \nAuthor: \nAuthor-email: Mariusz 'maledorak' Korzekwa <mariusz@korzekwa.dev>\nLicense: MIT\nLocation: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages\nRequires: mcp, pydantic, tzdata, tzlocal\nRequired-by:",
+  "tools_advertised": [
+    "get_current_time",
+    "convert_time"
+  ],
+  "n": 8,
+  "k": 4,
+  "seed": 0,
+  "boot_iters": 2000,
+  "tasks": [
+    {
+      "id": "current-time-utc",
+      "tool": "get_current_time",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "current-time-tokyo",
+      "tool": "get_current_time",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "convert-utc-to-tokyo",
+      "tool": "convert_time",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "convert-utc-to-kolkata",
+      "tool": "convert_time",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "invalid-timezone-is-an-error",
+      "tool": "get_current_time",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 1.0,
+        "schema_mismatch": 1.0
+      },
+      "flagged": true,
+      "sample_error": null
+    }
+  ],
+  "flagged_any": true
+}

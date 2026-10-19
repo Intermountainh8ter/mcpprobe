@@ -227,6 +227,7 @@ dependencies = [
  "predicates",
  "rand",
  "rand_pcg",
+ "regex",
  "serde",
  "serde_json",
  "tokio",

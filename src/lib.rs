@@ -5,6 +5,9 @@
 //! using the unbiased combinatorial estimators. See `docs/PREREGISTRATION.md`
 //! for the full statistical plan this crate commits to; this file implements it.
 
+pub mod client;
+pub mod run;
+
 use serde::{Deserialize, Serialize};
 
 /// Outcome of one trial of one task.
