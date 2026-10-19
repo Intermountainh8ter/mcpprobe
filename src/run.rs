@@ -204,19 +204,46 @@ pub struct RunArgs {
 }
 
 fn setup_git_repo(seed: u64) -> anyhow::Result<PathBuf> {
-    let dir = std::env::temp_dir().join(format!("mcpprobe-git-{}-{seed}", std::process::id()));
-    let _ = std::fs::remove_dir_all(&dir);
-    std::fs::create_dir_all(&dir)?;
+    let dir = private_tempdir(&format!("mcpprobe-git-{seed}"))?;
     let git = |args: &[&str]| -> anyhow::Result<()> {
         let o = std::process::Command::new("git").args(["-c", "user.name=mcpprobe", "-c", "user.email=mcpprobe@example.invalid"]).args(args).current_dir(&dir).output()?;
         anyhow::ensure!(o.status.success(), "git {:?}: {}", args, String::from_utf8_lossy(&o.stderr));
         Ok(())
     };
     git(&["init", "-q", "-b", "main"])?;
-    std::fs::write(dir.join("README.md"), "mcpprobe fixture repository\n")?;
+    write_new(&dir.join("README.md"), b"mcpprobe fixture repository\n")?;
     git(&["add", "README.md"])?;
     git(&["commit", "-q", "-m", "initial commit: mcpprobe fixture"])?;
     Ok(dir)
+}
+
+
+/// A fresh private directory (mode 0700) under the system temp dir whose name cannot be
+/// predicted or pre-created by another user: created with `create_dir` (fails if it exists),
+/// retried with a new suffix on collision.
+fn private_tempdir(prefix: &str) -> anyhow::Result<std::path::PathBuf> {
+    use std::os::unix::fs::DirBuilderExt;
+    let base = std::env::temp_dir();
+    for attempt in 0..64u32 {
+        let nanos = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
+        let salt = nanos ^ ((std::process::id() as u128) << 64) ^ ((attempt as u128) << 96) ^ (&base as *const _ as usize as u128);
+        let dir = base.join(format!("{prefix}-{salt:032x}"));
+        match std::fs::DirBuilder::new().mode(0o700).create(&dir) {
+            Ok(()) => return Ok(dir),
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(e) => return Err(e.into()),
+        }
+    }
+    anyhow::bail!("could not create a private temporary directory")
+}
+
+/// Write a new file that must not already exist (O_EXCL), mode 0600.
+fn write_new(path: &std::path::Path, bytes: &[u8]) -> anyhow::Result<()> {
+    use std::io::Write;
+    use std::os::unix::fs::OpenOptionsExt;
+    let mut f = std::fs::OpenOptions::new().write(true).create_new(true).mode(0o600).open(path)?;
+    f.write_all(bytes)?;
+    Ok(())
 }
 
 fn substitute(v: &serde_json::Value, key: &str, val: &str) -> serde_json::Value {
