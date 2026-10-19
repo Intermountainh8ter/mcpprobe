@@ -78,3 +78,29 @@ pool results.
   servers are not represented.
 - **Pass@k is a point estimate at one `n`.** We report its 95% bootstrap CI;
   with `n < 4` the CI is wide and the metric is not reliable.
+
+---
+
+## 7. First live population (added 2026-10-19, before any `run` result was committed)
+
+- Servers: `mcp-server-time` and `mcp-server-git` from the reference `modelcontextprotocol/servers`
+  collection, installed from PyPI into a local virtual environment (versions recorded in each
+  result file). `mcp-server-fetch` is installed but excluded because its only tool needs the
+  public internet, which would make its pass rate a measurement of the network.
+- Transport: stdio, newline-delimited JSON-RPC, protocol version `2024-11-05`, one server
+  process per environment run; stderr discarded.
+- Tasks: the scripted tasks in `envs/mcp-server-time.json` and `envs/mcp-server-git.json`,
+  committed with this section. Graders are JSON-pointer equality, anchored regular expressions
+  over the result's JSON or text content, and `expect_error` for the one deliberately invalid
+  call per server. The git environment runs against a throwaway repository with one commit that
+  the harness creates before the server starts.
+- n = 8, k = 4 (section 2), seed 0, 2,000 bootstrap resamples over trials for the gap interval.
+- Degenerate callers (section 3) run the same n trials per task; `no_op` sends nothing,
+  `random_arg` samples each declared property by type (enum members included), `schema_mismatch`
+  sends type-valid values outside the declared constraints (empty or 300-character strings, -1
+  for numbers). The flag threshold is pass@1 ≥ 5% on any of them. A task whose grader is
+  `expect_error` is expected to be flagged by construction (a wrong argument is also an error),
+  and is reported as such rather than counted toward a leaderboard.
+- Prediction: none registered beyond H1. These are deterministic reference servers; the
+  interesting number is whether H1 holds trivially (gap 0) or whether any task shows a
+  flaky trial, which would be a transport or server bug, not a model result.

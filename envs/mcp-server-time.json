@@ -1,0 +1,54 @@
+{
+  "name": "mcp-server-time",
+  "server": {
+    "name": "mcp-server-time (modelcontextprotocol/servers, PyPI)",
+    "cmd": ["/home/ammo/bench/.venv-mcp/bin/mcp-server-time", "--local-timezone", "UTC"],
+    "version_cmd": ["/home/ammo/bench/.venv-mcp/bin/pip", "show", "mcp-server-time"]
+  },
+  "setup": "none",
+  "tasks": [
+    {
+      "id": "current-time-utc",
+      "tool": "get_current_time",
+      "args": {"timezone": "UTC"},
+      "grader": {"kind": "all_of", "graders": [
+        {"kind": "json_path_equals", "path": "/timezone", "value": "UTC"},
+        {"kind": "json_path_regex", "path": "/datetime", "regex": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\+00:00|Z)$"},
+        {"kind": "json_path_equals", "path": "/is_dst", "value": false}
+      ]}
+    },
+    {
+      "id": "current-time-tokyo",
+      "tool": "get_current_time",
+      "args": {"timezone": "Asia/Tokyo"},
+      "grader": {"kind": "all_of", "graders": [
+        {"kind": "json_path_equals", "path": "/timezone", "value": "Asia/Tokyo"},
+        {"kind": "json_path_regex", "path": "/datetime", "regex": "\\+09:00$"}
+      ]}
+    },
+    {
+      "id": "convert-utc-to-tokyo",
+      "tool": "convert_time",
+      "args": {"source_timezone": "UTC", "time": "12:00", "target_timezone": "Asia/Tokyo"},
+      "grader": {"kind": "all_of", "graders": [
+        {"kind": "json_path_regex", "path": "/target/datetime", "regex": "T21:00:00\\+09:00$"},
+        {"kind": "json_path_equals", "path": "/time_difference", "value": "+9.0h"}
+      ]}
+    },
+    {
+      "id": "convert-utc-to-kolkata",
+      "tool": "convert_time",
+      "args": {"source_timezone": "UTC", "time": "12:00", "target_timezone": "Asia/Kolkata"},
+      "grader": {"kind": "all_of", "graders": [
+        {"kind": "json_path_regex", "path": "/target/datetime", "regex": "T17:30:00\\+05:30$"},
+        {"kind": "json_path_equals", "path": "/time_difference", "value": "+5.5h"}
+      ]}
+    },
+    {
+      "id": "invalid-timezone-is-an-error",
+      "tool": "get_current_time",
+      "args": {"timezone": "Not/AZone"},
+      "grader": {"kind": "expect_error"}
+    }
+  ]
+}

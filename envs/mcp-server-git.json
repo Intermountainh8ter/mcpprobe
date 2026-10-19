@@ -1,0 +1,44 @@
+{
+  "name": "mcp-server-git",
+  "server": {
+    "name": "mcp-server-git (modelcontextprotocol/servers, PyPI)",
+    "cmd": ["/home/ammo/bench/.venv-mcp/bin/mcp-server-git"],
+    "version_cmd": ["/home/ammo/bench/.venv-mcp/bin/pip", "show", "mcp-server-git"]
+  },
+  "setup": "git_repo",
+  "tasks": [
+    {
+      "id": "status-clean-tree",
+      "tool": "git_status",
+      "args": {"repo_path": "{repo}"},
+      "grader": {"kind": "text_regex", "regex": "nothing to commit|working tree clean"}
+    },
+    {
+      "id": "log-shows-fixture-commit",
+      "tool": "git_log",
+      "args": {"repo_path": "{repo}", "max_count": 1},
+      "grader": {"kind": "text_contains", "needle": "initial commit: mcpprobe fixture"}
+    },
+    {
+      "id": "branch-list-has-main",
+      "tool": "git_branch",
+      "args": {"repo_path": "{repo}", "branch_type": "local"},
+      "grader": {"kind": "text_contains", "needle": "main"}
+    },
+    {
+      "id": "show-head-commit",
+      "tool": "git_show",
+      "args": {"repo_path": "{repo}", "revision": "HEAD"},
+      "grader": {"kind": "all_of", "graders": [
+        {"kind": "text_contains", "needle": "initial commit: mcpprobe fixture"},
+        {"kind": "text_contains", "needle": "README.md"}
+      ]}
+    },
+    {
+      "id": "missing-repo-is-an-error",
+      "tool": "git_status",
+      "args": {"repo_path": "/nonexistent/mcpprobe-no-such-repo"},
+      "grader": {"kind": "expect_error"}
+    }
+  ]
+}
