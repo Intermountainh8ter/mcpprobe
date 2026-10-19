@@ -50,6 +50,34 @@ pub enum Setup {
     None,
     /// Create a throwaway git repository with one commit; `{repo}` in task args is replaced by its path.
     GitRepo,
+    /// Serve a fixed set of pages on 127.0.0.1; `{http}` in task args is replaced by the base URL.
+    HttpFixture,
+}
+
+/// The fixture pages: a small HTML document, a robots.txt that allows everything, a JSON file,
+/// and a 404 for anything else. Started on a free loopback port in a background thread.
+pub fn start_http_fixture() -> anyhow::Result<String> {
+    use std::io::{Read, Write};
+    let listener = std::net::TcpListener::bind("127.0.0.1:0")?;
+    let port = listener.local_addr()?.port();
+    std::thread::spawn(move || {
+        for stream in listener.incoming() {
+            let Ok(mut stream) = stream else { continue };
+            let mut buf = [0u8; 4096];
+            let n = stream.read(&mut buf).unwrap_or(0);
+            let req = String::from_utf8_lossy(&buf[..n]);
+            let path = req.lines().next().and_then(|l| l.split_whitespace().nth(1)).unwrap_or("/").to_string();
+            let (status, ctype, body): (&str, &str, String) = match path.as_str() {
+                "/" | "/index.html" => ("200 OK", "text/html; charset=utf-8", "<!doctype html><html><head><title>mcpprobe fixture page</title></head><body><h1>Fixture heading</h1><p>This is the mcpprobe fixture page. The answer is forty-two.</p><ul><li>alpha</li><li>beta</li></ul></body></html>".into()),
+                "/robots.txt" => ("200 OK", "text/plain", "User-agent: *\nAllow: /\n".into()),
+                "/data.json" => ("200 OK", "application/json", "{\"answer\": 42, \"fixture\": \"mcpprobe\"}".into()),
+                _ => ("404 Not Found", "text/plain", "not found".into()),
+            };
+            let resp = format!("HTTP/1.1 {status}\r\nContent-Type: {ctype}\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len());
+            let _ = stream.write_all(resp.as_bytes());
+        }
+    });
+    Ok(format!("http://127.0.0.1:{port}"))
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -267,8 +295,9 @@ async fn one_trial(client: &mut McpClient, task: &Task, caller: Caller, schema: 
 
 pub async fn run_environment(env: &Environment, a: &RunArgs) -> anyhow::Result<RunResult> {
     use rand::SeedableRng;
-    let repo = match env.setup { Setup::GitRepo => Some(setup_git_repo(a.seed)?), Setup::None => None };
+    let repo = match env.setup { Setup::GitRepo => Some(setup_git_repo(a.seed)?), _ => None };
     let repo_str = repo.as_ref().map(|p| p.to_string_lossy().to_string()).unwrap_or_default();
+    let http_base = match env.setup { Setup::HttpFixture => start_http_fixture()?, _ => String::new() };
     let server_version = if env.server.version_cmd.is_empty() { None } else {
         std::process::Command::new(&env.server.version_cmd[0]).args(&env.server.version_cmd[1..]).output().ok().map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())
     };
@@ -280,7 +309,7 @@ pub async fn run_environment(env: &Environment, a: &RunArgs) -> anyhow::Result<R
     let mut rng = rand_pcg::Pcg64Mcg::seed_from_u64(a.seed);
     let mut results = Vec::new();
     for task in &env.tasks {
-        let task = Task { id: task.id.clone(), tool: task.tool.clone(), args: substitute(&task.args, "{repo}", &repo_str), grader: task.grader.clone() };
+        let task = Task { id: task.id.clone(), tool: task.tool.clone(), args: substitute(&substitute(&task.args, "{repo}", &repo_str), "{http}", &http_base), grader: task.grader.clone() };
         let schema = schemas.get(&task.tool).cloned().unwrap_or(serde_json::Value::Null);
         let mut outcomes = Vec::with_capacity(a.n);
         let mut sample_error = None;

@@ -1,0 +1,44 @@
+{
+  "name": "mcp-server-fetch",
+  "server": {
+    "name": "mcp-server-fetch (modelcontextprotocol/servers, PyPI), against a loopback fixture",
+    "cmd": ["/home/ammo/bench/.venv-mcp/bin/mcp-server-fetch", "--allow-private-ips"],
+    "version_cmd": ["/home/ammo/bench/.venv-mcp/bin/pip", "show", "mcp-server-fetch"]
+  },
+  "setup": "http_fixture",
+  "tasks": [
+    {
+      "id": "fetch-html-as-markdown",
+      "tool": "fetch",
+      "args": {"url": "{http}/"},
+      "grader": {"kind": "all_of", "graders": [
+        {"kind": "text_contains", "needle": "Fixture heading"},
+        {"kind": "text_contains", "needle": "The answer is forty-two."}
+      ]}
+    },
+    {
+      "id": "fetch-raw-html",
+      "tool": "fetch",
+      "args": {"url": "{http}/", "raw": true},
+      "grader": {"kind": "text_contains", "needle": "<title>mcpprobe fixture page</title>"}
+    },
+    {
+      "id": "fetch-json-passthrough",
+      "tool": "fetch",
+      "args": {"url": "{http}/data.json"},
+      "grader": {"kind": "text_regex", "regex": "\"answer\":\\s*42"}
+    },
+    {
+      "id": "fetch-truncation-note",
+      "tool": "fetch",
+      "args": {"url": "{http}/", "max_length": 40},
+      "grader": {"kind": "text_regex", "regex": "(?i)truncated"}
+    },
+    {
+      "id": "fetch-404-is-an-error",
+      "tool": "fetch",
+      "args": {"url": "{http}/missing"},
+      "grader": {"kind": "expect_error"}
+    }
+  ]
+}

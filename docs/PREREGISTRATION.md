@@ -104,3 +104,13 @@ pool results.
 - Prediction: none registered beyond H1. These are deterministic reference servers; the
   interesting number is whether H1 holds trivially (gap 0) or whether any task shows a
   flaky trial, which would be a transport or server bug, not a model result.
+
+## 8. Third server: `mcp-server-fetch` against a loopback fixture (added 2026-10-19, before its first run)
+
+Section 7 excluded `mcp-server-fetch` because its tool reaches the public internet. This section
+adds it against a fixture the harness serves itself on 127.0.0.1 (one HTML page, a permissive
+robots.txt, one JSON file, 404 elsewhere), with the server started with `--allow-private-ips`.
+The tasks in `envs/mcp-server-fetch.json` are committed with this section: HTML to markdown, raw
+HTML, JSON pass-through, the truncation note at a small `max_length`, and a 404 as an error. The
+measurement is of the server's fetch-and-convert path, not of the network. n, k, callers, gates
+and prediction as in section 7.
