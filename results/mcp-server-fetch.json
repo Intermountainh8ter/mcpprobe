@@ -1,0 +1,202 @@
+{
+  "tool": "mcpprobe 0.0.1",
+  "unix_time": 1792434172,
+  "environment": "mcp-server-fetch",
+  "server": {
+    "name": "mcp-server-fetch (modelcontextprotocol/servers, PyPI), against a loopback fixture",
+    "cmd": [
+      "/home/ammo/bench/.venv-mcp/bin/mcp-server-fetch",
+      "--allow-private-ips"
+    ],
+    "version_cmd": [
+      "/home/ammo/bench/.venv-mcp/bin/pip",
+      "show",
+      "mcp-server-fetch"
+    ]
+  },
+  "server_info": {
+    "name": "mcp-fetch",
+    "version": "2026.10.19"
+  },
+  "server_version": "Name: mcp-server-fetch\nVersion: 2026.10.19\nSummary: A Model Context Protocol server providing tools to fetch and convert web content for usage by LLMs\nHome-page: \nAuthor: Anthropic, PBC.\nAuthor-email: \nLicense: MIT\nLocation: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages\nRequires: httpx, markdownify, mcp, protego, pydantic, readabilipy, requests\nRequired-by:",
+  "tools_advertised": [
+    "fetch"
+  ],
+  "n": 8,
+  "k": 4,
+  "seed": 0,
+  "boot_iters": 2000,
+  "tasks": [
+    {
+      "id": "fetch-html-as-markdown",
+      "tool": "fetch",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "fetch-raw-html",
+      "tool": "fetch",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "fetch-json-passthrough",
+      "tool": "fetch",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "fetch-truncation-note",
+      "tool": "fetch",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 0.0,
+        "schema_mismatch": 0.0
+      },
+      "flagged": false,
+      "sample_error": null
+    },
+    {
+      "id": "fetch-404-is-an-error",
+      "tool": "fetch",
+      "n": 8,
+      "k": 4,
+      "c": 8,
+      "outcomes": [
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass",
+        "Pass"
+      ],
+      "refusals": 0,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_pow_k": 1.0,
+      "gap": 0.0,
+      "gap_ci": [
+        0.0,
+        0.0
+      ],
+      "h1_supported": true,
+      "degenerate_pass_at_1": {
+        "no_op": 0.0,
+        "random_arg": 1.0,
+        "schema_mismatch": 1.0
+      },
+      "flagged": true,
+      "sample_error": null
+    }
+  ],
+  "flagged_any": true
+}

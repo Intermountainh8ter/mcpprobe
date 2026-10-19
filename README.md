@@ -17,6 +17,56 @@ Scripted callers and graders, no LLM anywhere. n = 8 trials per task, k = 4, 2,0
 
 | server (version) | task | tool | c / n | pass@1 | pass@k | pass^k | gap [95% CI] | H1 gap ≤ 10 pp | no-op / random-arg / schema-mismatch pass@1 | flagged |
 |---|---|---|---|---|---|---|---|---|---|---|
+| mcp-server-fetch (Name: mcp-server-fetch
+Version: 2026.10.19
+Summary: A Model Context Protocol server providing tools to fetch and convert web content for usage by LLMs
+Home-page: 
+Author: Anthropic, PBC.
+Author-email: 
+License: MIT
+Location: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages
+Requires: httpx, markdownify, mcp, protego, pydantic, readabilipy, requests
+Required-by:) | fetch-html-as-markdown | `fetch` | 8 / 8 | 100.0% | 100.0% | 100.0% | 0.0% [0.0%, 0.0%] | supported | 0.0% / 0.0% / 0.0% | no |
+| mcp-server-fetch (Name: mcp-server-fetch
+Version: 2026.10.19
+Summary: A Model Context Protocol server providing tools to fetch and convert web content for usage by LLMs
+Home-page: 
+Author: Anthropic, PBC.
+Author-email: 
+License: MIT
+Location: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages
+Requires: httpx, markdownify, mcp, protego, pydantic, readabilipy, requests
+Required-by:) | fetch-raw-html | `fetch` | 8 / 8 | 100.0% | 100.0% | 100.0% | 0.0% [0.0%, 0.0%] | supported | 0.0% / 0.0% / 0.0% | no |
+| mcp-server-fetch (Name: mcp-server-fetch
+Version: 2026.10.19
+Summary: A Model Context Protocol server providing tools to fetch and convert web content for usage by LLMs
+Home-page: 
+Author: Anthropic, PBC.
+Author-email: 
+License: MIT
+Location: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages
+Requires: httpx, markdownify, mcp, protego, pydantic, readabilipy, requests
+Required-by:) | fetch-json-passthrough | `fetch` | 8 / 8 | 100.0% | 100.0% | 100.0% | 0.0% [0.0%, 0.0%] | supported | 0.0% / 0.0% / 0.0% | no |
+| mcp-server-fetch (Name: mcp-server-fetch
+Version: 2026.10.19
+Summary: A Model Context Protocol server providing tools to fetch and convert web content for usage by LLMs
+Home-page: 
+Author: Anthropic, PBC.
+Author-email: 
+License: MIT
+Location: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages
+Requires: httpx, markdownify, mcp, protego, pydantic, readabilipy, requests
+Required-by:) | fetch-truncation-note | `fetch` | 8 / 8 | 100.0% | 100.0% | 100.0% | 0.0% [0.0%, 0.0%] | supported | 0.0% / 0.0% / 0.0% | no |
+| mcp-server-fetch (Name: mcp-server-fetch
+Version: 2026.10.19
+Summary: A Model Context Protocol server providing tools to fetch and convert web content for usage by LLMs
+Home-page: 
+Author: Anthropic, PBC.
+Author-email: 
+License: MIT
+Location: /home/ammo/bench/.venv-mcp/lib/python3.12/site-packages
+Requires: httpx, markdownify, mcp, protego, pydantic, readabilipy, requests
+Required-by:) | fetch-404-is-an-error | `fetch` | 8 / 8 | 100.0% | 100.0% | 100.0% | 0.0% [0.0%, 0.0%] | supported | 0.0% / 100.0% / 100.0% | yes |
 | mcp-server-git (Name: mcp-server-git
 Version: 2026.10.19
 Summary: A Model Context Protocol server providing tools to read, search, and manipulate Git repositories programmatically via LLMs
@@ -120,13 +170,14 @@ Required-by:) | invalid-timezone-is-an-error | `get_current_time` | 8 / 8 | 100.
 
 <!-- RESULTS:END -->
 
-Rendered by `mcpprobe report` from `results/*.json`. Environments (server command, scripted tasks, graders) are committed under `envs/` and were pre-registered in [docs/PREREGISTRATION.md](docs/PREREGISTRATION.md) section 7 before the first run. A flagged task is one a degenerate caller can pass: for the `expect_error` tasks that is by construction (any wrong argument is also an error); for the two git tasks it is a finding about the environment, the server accepts an empty `repo_path` and answers for its working directory, so the grader is passable without the right argument and the task is excluded from any leaderboard until the grader pins the repository identity.
+Rendered by `mcpprobe report` from `results/*.json`. Environments (server command, scripted tasks, graders) are committed under `envs/` and were pre-registered in [docs/PREREGISTRATION.md](docs/PREREGISTRATION.md) section 7 before the first run. A flagged task is one a degenerate caller can pass: for the `expect_error` tasks that is by construction (any wrong argument is also an error); for the two git tasks it is a finding about the environment, the server accepts an empty `repo_path` and answers for its working directory, so the grader is passable without the right argument and the task is excluded from any leaderboard until the grader pins the repository identity. `mcp-server-fetch` is probed against a fixture the harness serves on 127.0.0.1 (section 8 of the pre-registration), so its row measures the fetch-and-convert path, not the network.
 
 ## Running
 
 ```
 mcpprobe run --env envs/mcp-server-time.json --out results/mcp-server-time.json
 mcpprobe run --env envs/mcp-server-git.json  --out results/mcp-server-git.json
+mcpprobe run --env envs/mcp-server-fetch.json --out results/mcp-server-fetch.json   # loopback fixture, --allow-private-ips
 mcpprobe report
 ```
 

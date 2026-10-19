@@ -1,12 +1,15 @@
 {
-  "n_files": 4,
+  "n_files": 7,
   "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
   "sha256": {
+    "envs/mcp-server-fetch.json": "ffdbbf58bcd5b58e92f5f5ed97ff5ff83ef8078c917b0278dcdf1592fadbb4af",
     "envs/mcp-server-git.json": "0c50856d6312e2d28c16013e6ec94e22d7ffb150a0a8ff3371e95db03af2d72f",
     "envs/mcp-server-time.json": "57ad8498637ca9edaef4e099d0d4a0716f5fb33ef8b93c3792ec8c35bc3c01bd",
+    "results/MANIFEST.sha256.json": "38c9fb4a472313a83afaa325b7fb7cf42eeb1dbb64e2a244872706b5cf3b99f4",
+    "results/mcp-server-fetch.json": "cca981a62d453978e8328d11376d0323bc70b48b8fbb169453ce09b74761ce99",
     "results/mcp-server-git.json": "4481e257c869eadd08381991bafd76a98329ff0a38607d1b62c2db11e5ca8dc5",
     "results/mcp-server-time.json": "a68eeb8914e822c6f71bb6a4d3576a40140b536c0eeedaa586efa35e38da4513"
   },
   "tool": "bench-report 0.1.0",
-  "unix_time": 1792427015
+  "unix_time": 1792434206
 }
